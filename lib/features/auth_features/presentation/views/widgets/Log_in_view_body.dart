@@ -17,6 +17,8 @@ class _LogInViewBodyState extends State<LogInViewBody> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> key=GlobalKey();
+    bool isPasswordHidden = true;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -60,6 +62,18 @@ class _LogInViewBodyState extends State<LogInViewBody> {
               ),
             ),
             CustomTextField(
+              
+              obscureText: isPasswordHidden,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  isPasswordHidden ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPasswordHidden = !isPasswordHidden;
+                  });
+                },
+              ),
               validator:Validation.validatePassword,
               controller: passwordController,
               hintTxt: "Password",

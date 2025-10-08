@@ -18,6 +18,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   GlobalKey<FormState> key = GlobalKey();
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +83,17 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               ),
             ),
             CustomTextField(
+              obscureText: isPasswordHidden,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  isPasswordHidden ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPasswordHidden = !isPasswordHidden;
+                  });
+                },
+              ),
               validator: Validation.validatePassword,
               controller: passwordController,
               hintTxt: "Enter Your Password",

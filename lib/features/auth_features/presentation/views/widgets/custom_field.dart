@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintTxt,
@@ -9,39 +8,36 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.obscureText = false,
     this.onChanged,
+    this.suffixIcon,
   });
+
   final String hintTxt;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool obscureText;
   final void Function(String)? onChanged;
+  final Widget? suffixIcon;
 
-  @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  bool obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: TextFormField(
-
-        onChanged: widget.onChanged,
-        validator: widget.validator,
-        controller: widget.controller,
-        obscureText: (widget.obscureText && obscureText),
+        controller: controller,
+        validator: validator,
+        obscureText: obscureText,
+        onChanged: onChanged,
         decoration: InputDecoration(
+          hintText: hintTxt,
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20)
+            borderRadius: BorderRadius.circular(20),
           ),
-          floatingLabelStyle: TextStyle(
+          floatingLabelStyle: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-          hintText: widget.hintTxt,
         ),
       ),
     );
