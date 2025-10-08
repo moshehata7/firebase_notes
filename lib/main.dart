@@ -1,4 +1,5 @@
 import 'package:fire_test/features/auth_features/presentation/views/Log_in_view.dart';
+import 'package:fire_test/features/home_feature/presentation/views/home_view.dart';
 import 'package:fire_test/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _MyFireAppState extends State<MyFireApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LogInView(),
+      home:FirebaseAuth.instance.currentUser==null ? LogInView(): HomeView(),
     );
   }
 }

@@ -1,11 +1,20 @@
 import 'package:fire_test/features/auth_features/presentation/views/sign_up_view.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_button.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_field.dart';
+import 'package:fire_test/features/home_feature/presentation/views/home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LogInViewBody extends StatelessWidget {
+class LogInViewBody extends StatefulWidget {
   const LogInViewBody({super.key});
 
+  @override
+  State<LogInViewBody> createState() => _LogInViewBodyState();
+}
+
+class _LogInViewBodyState extends State<LogInViewBody> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -30,7 +39,16 @@ class LogInViewBody extends StatelessWidget {
             ),
           ),
 
-          CustomTextField(hintTxt: "Email"),
+          CustomTextField(
+            validator: (String? value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'البريد الإلكتروني مطلوب';
+              }
+              return null;
+            },
+            controller: emailController,
+            hintTxt: "Email",
+          ),
           SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.only(left: 32.0, bottom: 8),
@@ -42,9 +60,48 @@ class LogInViewBody extends StatelessWidget {
               ),
             ),
           ),
-          CustomTextField(hintTxt: "Password"),
+          CustomTextField(
+            validator: (String? value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'كلمة المرور مطلوبة';
+              }
+              return null;
+            },
+            controller: passwordController,
+            hintTxt: "Password",
+          ),
           SizedBox(height: 20),
           CustomButton(
+            onTap: () async {
+              try {
+                final credential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return HomeView();
+                    },
+                  ),
+                );
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'user-not-found') {
+                  return customSnackBar(
+                    context,
+                    text: "'No user found for that email.'",
+                  );
+                } else if (e.code == 'wrong-password') {
+                  return customSnackBar(
+                    context,
+                    text: "'Wrong password provided for that user.'",
+                  );
+                }
+              }
+            },
             buttonContent: Text(
               "Log In",
               style: TextStyle(color: Colors.white, fontSize: 18),
@@ -93,4 +150,13 @@ class LogInViewBody extends StatelessWidget {
       ),
     );
   }
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
+  BuildContext context, {
+  required String text,
+}) {
+  return ScaffoldMessenger.of(
+    context,
+  ).showSnackBar(SnackBar(content: Text(text)));
 }
