@@ -39,6 +39,7 @@ class _MyFireAppState extends State<MyFireApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       home:FirebaseAuth.instance.currentUser==null ? LogInView(): HomeView(),
     );

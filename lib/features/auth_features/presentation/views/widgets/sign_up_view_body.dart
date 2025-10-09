@@ -1,5 +1,6 @@
 import 'package:fire_test/core/utils/functions/messages.dart';
 import 'package:fire_test/core/utils/functions/validation.dart';
+import 'package:fire_test/features/auth_features/presentation/views/Log_in_view.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_button.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,7 +109,15 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                           email: emailController.text,
                           password: passwordController.text,
                         );
-                    Navigator.pop(context);
+                    // FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LogInView();
+                        },
+                      ),
+                    );
                     return Messages.extractSnackBar(context, text: "Successed");
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
@@ -144,7 +153,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                     "Sign Up With Google  ",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
-                  Image.asset("images/images.png", height: 30),
+                  Image.asset("images/270014.png", height: 30),
                 ],
               ),
             ),
@@ -158,11 +167,18 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LogInView();
+                        },
+                      ),
+                    );
                   },
                   child: Text(
                     "LogIn",
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 18),
+                    style: TextStyle(color: Color(0xff273b7a), fontSize: 18),
                   ),
                 ),
               ],
