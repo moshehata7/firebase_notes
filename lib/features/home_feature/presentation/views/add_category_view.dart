@@ -4,6 +4,7 @@ import 'package:fire_test/core/utils/functions/validation.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_button.dart';
 import 'package:fire_test/features/auth_features/presentation/views/widgets/custom_field.dart';
 import 'package:fire_test/features/home_feature/presentation/views/home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddCategoryView extends StatefulWidget {
@@ -25,6 +26,7 @@ class _AddCategoryViewState extends State<AddCategoryView> {
       try {
         DocumentReference response = await categories.add({
           'name': nameController.text,
+          "id":FirebaseAuth.instance.currentUser!.uid
           
         });
         print('✅ Document added!');
