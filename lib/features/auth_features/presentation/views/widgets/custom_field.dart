@@ -8,7 +8,7 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.obscureText = false,
     this.onChanged,
-    this.suffixIcon,
+    this.suffixIcon, this.hintStyle,
   });
 
   final String hintTxt;
@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final void Function(String)? onChanged;
   final Widget? suffixIcon;
+  final TextStyle? hintStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,20 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         onChanged: onChanged,
         decoration: InputDecoration(
+          
+          hintStyle: hintStyle,
           hintText: hintTxt,
           suffixIcon: suffixIcon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+          focusedBorder:OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blue
+            ),
+            borderRadius: BorderRadius.circular(20)) ,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blue
+            ),
+            borderRadius: BorderRadius.circular(20)),
           floatingLabelStyle: const TextStyle(
             color: Colors.black,
             fontSize: 20,

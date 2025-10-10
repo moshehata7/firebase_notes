@@ -1,25 +1,60 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_test/features/auth_features/presentation/views/Log_in_view.dart';
+import 'package:fire_test/features/home_feature/presentation/views/add_category_view.dart';
 import 'package:fire_test/features/home_feature/presentation/views/widgets/custom_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  List<QueryDocumentSnapshot> categories = [];
+  getData() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("categories")
+        .get();
+    categories.addAll(querySnapshot.docs);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
-      },
-      backgroundColor: Colors.blue,
-      child: Icon(Icons.add,color: Colors.white,),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return AddCategoryView();
+              },
+            ),
+          );
+        },
+        backgroundColor: Colors.blue,
+        child: Icon(Icons.add, color: Colors.white),
       ),
       appBar: AppBar(
-        title: Text("Categories",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20, color: Colors.blue)),
+        title: Text(
+          "Categories",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.blue,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -35,21 +70,20 @@ class HomeView extends StatelessWidget {
                 )),
               );
             },
-            icon: Icon(Icons.exit_to_app,color: Colors.blue,),
+            icon: Icon(Icons.exit_to_app, color: Colors.blue),
           ),
         ],
       ),
-      body: GridView(
-        
+      body: GridView.builder(
+        itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisExtent: 160
-          ),
-        children: [
-          CustomCard(txt: "Home"),
-          CustomCard(txt: "Company")
-        ],
+          mainAxisExtent: 160,
         ),
+        itemBuilder: (context, index) {
+          return CustomCard(txt: categories[index]["name"]);
+        },
+      ),
     );
   }
 }

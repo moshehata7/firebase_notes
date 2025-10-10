@@ -133,6 +133,9 @@ class _LogInViewBodyState extends State<LogInViewBody> {
             ),
             SizedBox(height: 10),
             CustomButton(
+              color: Color(0xff04284e) ,
+              height: 50,
+              width: 450,
               onTap: () async {
                 if (key.currentState!.validate()) {
                   try {
@@ -180,6 +183,9 @@ class _LogInViewBodyState extends State<LogInViewBody> {
             ),
             SizedBox(height: 20),
             CustomButton(
+              color: Color(0xff04284e) ,
+              height: 50,
+              width: 450,
               onTap: () async {
                 signInWithGoogleWeb();
               },

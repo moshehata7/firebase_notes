@@ -101,6 +101,9 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
             ),
             SizedBox(height: 20),
             CustomButton(
+              color: Color(0xff04284e) ,
+              height: 50,
+              width: 450,
               onTap: () async {
                 if (key.currentState!.validate()) {
                   try {
@@ -146,6 +149,9 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
             ),
             SizedBox(height: 20),
             CustomButton(
+              color:Color(0xff04284e) ,
+              height: 50,
+              width: 450,
               buttonContent: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
